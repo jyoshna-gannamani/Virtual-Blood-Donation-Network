@@ -1,0 +1,213 @@
+# Virtual-Blood-Donation-Network
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Blood Donation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://images.unsplash.com/photo-1588776814546-5ed2bdfdd637?auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        header {
+            background-color: rgba(183, 28, 28, 0.9);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        nav {
+            background-color: rgba(211, 47, 47, 0.95);
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav a {
+            margin: 0 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .container {
+            padding: 30px;
+            max-width: 800px;
+            margin: auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .btn {
+            background-color: #c62828;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #a91c1c;
+        }
+
+        input[type="text"], input[type="number"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 1em;
+        }
+
+        #searchResults p {
+            background: #ffe0e0;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            nav a {
+                display: block;
+                margin: 10px 0;
+            }
+
+            .btn {
+                width: 100%;
+                font-size: 1.1em;
+            }
+        }
+    </style>
+    <script>
+        const donors = [];
+
+        function registerDonor() {
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const blood = document.getElementById('blood').value.toUpperCase();
+            const city = document.getElementById('city').value.toLowerCase();
+            const phone = document.getElementById('phone').value;
+
+            if (!name || !age || !blood || !city || !phone) {
+                alert('Please fill all fields.');
+                return;
+            }
+
+            donors.push({ name, age, blood, city, phone });
+            alert('Donor registered successfully!');
+
+            document.getElementById('name').value = '';
+            document.getElementById('age').value = '';
+            document.getElementById('blood').value = '';
+            document.getElementById('city').value = '';
+            document.getElementById('phone').value = '';
+        }
+
+        function searchDonor() {
+            const searchBlood = document.getElementById('searchBlood').value.toUpperCase();
+            const searchCity = document.getElementById('searchCity').value.toLowerCase();
+
+            const results = donors.filter(d => d.blood === searchBlood && d.city === searchCity);
+            const output = document.getElementById('searchResults');
+            output.innerHTML = '';
+
+            if (results.length > 0) {
+                results.forEach(d => {
+                    output.innerHTML += `<p><strong>${d.name}</strong> (${d.blood.toUpperCase()}) - ${d.city.charAt(0).toUpperCase() + d.city.slice(1)}, Contact: ${d.phone}</p>`;
+                });
+            } else {
+                output.innerHTML = '<p>No matching donors found.</p>';
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1>Virtual Blood Donation</h1>
+        <p>Save Lives. Be a Hero. Donate Blood.</p>
+    </header>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#login">Login</a>
+        <a href="#register">Register</a>
+        <a href="#awareness">Awareness & Tips</a>
+        <a href="#search">Search Donor</a>
+    </nav>
+
+    <div class="container">
+        <div class="card" id="home">
+            <h2>Welcome to Our Blood Donation Platform</h2>
+            <p>Our mission is to connect blood donors with those in need, fast and efficiently. Join our life-saving network.</p>
+        </div>
+
+        <div class="card" id="login">
+            <h2>Login</h2>
+            <input type="text" placeholder="Username"><br>
+            <input type="password" placeholder="Password"><br>
+            <button class="btn">Login</button>
+        </div>
+
+        <div class="card" id="register">
+            <h2>Register as Donor</h2>
+            <input type="text" id="name" placeholder="Full Name">
+            <input type="number" id="age" placeholder="Age">
+            <input type="text" id="blood" placeholder="Blood Group (e.g., A+, B-)">
+            <input type="text" id="city" placeholder="City">
+            <input type="text" id="phone" placeholder="Phone Number">
+            <button class="btn" onclick="registerDonor()">Register</button>
+        </div>
+
+        <div class="card" id="awareness">
+            <h2>Awareness & Tips</h2>
+            <ul>
+                <li>Drink plenty of water before donating.</li>
+                <li>Eat a healthy meal before your donation.</li>
+                <li>Don’t donate if you feel sick.</li>
+                <li>Rest well after donation.</li>
+                <li>You can donate whole blood every 3 months.</li>
+            </ul>
+        </div>
+
+        <div class="card" id="search">
+            <h2>Search for Donor</h2>
+            <input type="text" id="searchBlood" placeholder="Enter Blood Group">
+            <input type="text" id="searchCity" placeholder="Enter City">
+            <button class="btn" onclick="searchDonor()">Search</button>
+            <div id="searchResults" style="margin-top: 15px;"></div>
+        </div>
+    </div>
+</body>
+
+</html>
